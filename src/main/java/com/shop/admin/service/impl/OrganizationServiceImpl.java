@@ -1,5 +1,6 @@
 package com.shop.admin.service.impl;
 
+import com.shop.admin.dto.OrganizationDTO;
 import com.shop.admin.enumeration.Activity;
 import com.shop.admin.enumeration.Role;
 import com.shop.admin.exception.model.NotFoundOrganizationException;
@@ -13,9 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.shop.admin.constant.ExceptionConstant.NO_SUCH_ORGANIZATION_EXISTS;
 import static java.lang.Boolean.*;
@@ -29,8 +29,10 @@ public class OrganizationServiceImpl implements OrganizationService {
     private final OrganizationRepo organizationRepo;
 
     @Override
-    public List<Organization> findUnregisteredOrganizations() {
-        return organizationRepo.findByActivity(Activity.UNREGISTERED.name()).orElseGet(ArrayList::new);
+    public Set<OrganizationDTO> findUnregisteredOrganizations() {
+        Set<Organization> organizations = organizationRepo.findByActivity(Activity.UNREGISTERED.name()).orElseGet(HashSet::new);
+        Set<OrganizationDTO> orgs = organizations.stream().map(this::createOrganizationDTO).collect(Collectors.toSet());
+        return orgs;
     }
 
     @Transactional
@@ -80,8 +82,28 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    public List<Organization> getAll() {
-        return organizationRepo.findAll();
+    public Set<OrganizationDTO> getAll() {
+        Set<OrganizationDTO> organizations = organizationRepo.findAll()
+                .stream().map(organization -> {
+                    OrganizationDTO org = new OrganizationDTO();
+                    org.setName(organization.getName());
+                    org.setDescription(organization.getDescription());
+                    org.setUsername(organization.getName());
+                    org.setLogo(organization.getLogo());
+                    org.setActivity(organization.getActivity());
+                    return org;
+                }).collect(Collectors.toSet());
+        return organizations;
+    }
+
+    private OrganizationDTO createOrganizationDTO(Organization organization) {
+        OrganizationDTO org = new OrganizationDTO();
+        org.setName(organization.getName());
+        org.setDescription(organization.getDescription());
+        org.setUsername(organization.getName());
+        org.setLogo(organization.getLogo());
+        org.setActivity(organization.getActivity());
+        return org;
     }
 
 

@@ -11,7 +11,7 @@ public interface UserService {
     User findByUsername(String username) throws UsernameExistException;
     List<User> getAllUsers();
 
-    String activation(String username, String activation) throws NotFoundOrganizationException;
+    String activation(String username, String activation);
 
     void creditMoney(String username, Double summa);
 }

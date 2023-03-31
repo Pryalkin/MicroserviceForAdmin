@@ -68,20 +68,10 @@ public class ExceptionHandling {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
 
-//    @ExceptionHandler(EmailNotFoundException.class)
-//    public ResponseEntity<HttpResponse> emailNotFoundException(EmailNotFoundException exception) {
-//        return createHttpResponse(BAD_REQUEST, exception.getMessage());
-//    }
-
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<HttpResponse> userNotFoundException(UserNotFoundException exception) {
         return createHttpResponse(BAD_REQUEST, exception.getMessage());
     }
-
-//    @ExceptionHandler(NoHandlerFoundException.class)
-//    public ResponseEntity<HttpResponse> noHandlerFoundException(NoHandlerFoundException e) {
-//        return createHttpResponse(BAD_REQUEST, "There is no mapping for this URL");
-//    }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<HttpResponse> methodNotSupportedException(HttpRequestMethodNotSupportedException exception) {

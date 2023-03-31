@@ -11,6 +11,6 @@ import java.util.Set;
 public interface ProductRepo extends JpaRepository<Product, Long> {
 
     Optional<Set<Product>> findByRegistered(Boolean flag);
-    Optional<Product> findByProductId(String productId);
+    Optional<Product> findByProdId(String productId);
 
 }

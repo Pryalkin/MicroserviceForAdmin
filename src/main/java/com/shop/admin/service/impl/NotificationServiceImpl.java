@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 import static com.shop.admin.constant.UserImplConstant.NO_USER_FOUND_BY_USERNAME;
 
@@ -28,8 +27,7 @@ public class NotificationServiceImpl implements NotificationService {
         User user = userRepo.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(NO_USER_FOUND_BY_USERNAME + username));
         notification.setDateOfCreation(LocalDateTime.now());
-        notification = notificationRepo.save(notification);
-        user.getNotifications().add(notification);
+        user.addNotification(notification);
         userRepo.save(user);
     }
 }

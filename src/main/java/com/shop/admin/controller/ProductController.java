@@ -1,9 +1,9 @@
 package com.shop.admin.controller;
 
 import com.shop.admin.constant.HttpAnswer;
+import com.shop.admin.dto.ProductDTO;
+import com.shop.admin.exception.ExceptionHandling;
 import com.shop.admin.model.HttpResponse;
-import com.shop.admin.model.product.Product;
-import com.shop.admin.model.user.Organization;
 import com.shop.admin.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +20,14 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 @RequestMapping("/admin/product")
 @AllArgsConstructor
-public class ProductController {
+public class ProductController extends ExceptionHandling {
 
     private final ProductService productService;
 
     @GetMapping("/unregistered")
     @PreAuthorize("hasAnyAuthority('user:update_product')")
-    public ResponseEntity<Set<Product>> unregistered(){
-        Set<Product> products = productService.findUnregisteredProducts();
-        return new ResponseEntity<>(products, OK);
+    public ResponseEntity<Set<ProductDTO>> unregistered(){
+        return new ResponseEntity<>(productService.findUnregisteredProducts(), OK);
     }
 
     @PostMapping("/registration")

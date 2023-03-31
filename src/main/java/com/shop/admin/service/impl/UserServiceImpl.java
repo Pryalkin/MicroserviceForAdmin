@@ -1,7 +1,6 @@
 package com.shop.admin.service.impl;
 
 import com.shop.admin.enumeration.Activity;
-import com.shop.admin.exception.model.NotFoundOrganizationException;
 import com.shop.admin.exception.model.UsernameExistException;
 import com.shop.admin.model.user.UserPrincipal;
 import com.shop.admin.model.user.User;
@@ -42,7 +41,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public String activation(String username, String activation) throws NotFoundOrganizationException {
+    public String activation(String username, String activation){
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(NO_USER_FOUND_BY_USERNAME));
         if (activation.toUpperCase().equals(Activity.ACTIVE.name())) {
